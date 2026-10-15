@@ -1,0 +1,4 @@
+DB_HOST=prontuario-db.c9o4qccowy1b.us-east-2.rds.amazonaws.com
+DB_USER=admin
+DB_PASSWORD=JbnVvsaiU55N5Nm
+DB_NAME=prontuario_escolar
