@@ -1,6 +1,15 @@
-# 📚 Prontuário Escolar Web
+# 📚 Prontuário Escolar Web (v1.0.2)
 
 Sistema web desenvolvido como projeto acadêmico com o objetivo de facilitar a comunicação entre escola e responsáveis, além de organizar informações dos alunos.
+
+---
+
+## 🌐 Acesso ao Sistema (Produção - AWS)
+
+O projeto está hospedado em uma instância **Amazon EC2 (Amazon Linux 2023)** na AWS, utilizando banco de dados **AWS Amazon Aurora / RDS**.
+
+* **URL de Acesso:** [http://18.118.254.136:3000/](http://18.118.254.136:3000/)
+* **Repositório GitHub:** [https://github.com/LucasIgnacio95/PI2-v1.02](https://github.com/LucasIgnacio95/PI2-v1.02)
 
 ---
 
@@ -8,9 +17,10 @@ Sistema web desenvolvido como projeto acadêmico com o objetivo de facilitar a c
 
 Desenvolver um sistema web utilizando:
 
-* Backend com Node.js
-* Banco de dados MariaDB
+* Backend com Node.js e Express
+* Banco de dados AWS Amazon Aurora / RDS
 * Frontend com HTML, CSS e JavaScript
+* Infraestrutura em nuvem AWS (EC2 Instance Connect)
 * Controle de versão com Git/GitHub
 
 ---
@@ -18,53 +28,53 @@ Desenvolver um sistema web utilizando:
 ## 👥 Perfis de Usuário
 
 ### 👨‍💼 Admin
-
 * Criar, editar e excluir:
-
   * Professores
   * Responsáveis
   * Alunos
 * Controle total do sistema
 
----
-
 ### 👨‍🏫 Professor
-
-* Gerenciar alunos
-* Registrar:
-
-  * Ocorrências
-  * Rotina
-  * Observações
-* Responder mensagens dos responsáveis
-
----
+* Gerenciar alunos (cadastro de alunos)
+* Publicar e gerenciar avisos escolares
+* Responder mensagens dos responsáveis via chat integrado
 
 ### 👨‍👩‍👧 Responsável (Pai/Mãe)
-
 * Visualizar informações do filho
-* Acompanhar:
-
-  * Ocorrências
-  * Rotina
-* Enviar mensagens para o professor
+* Acompanhar avisos da escola
+* Enviar e receber mensagens do professor pelo chat integrado
 
 ---
 
 ## 🧱 Estrutura do Projeto
 
 ```
-prontuario-escolar/
+PI2-v1.02/
 │
 ├── backend/
 │   ├── config/
+│   ├── middleware/
 │   ├── routes/
-│   ├── server.js
-│   └── .env
+│   ├── utils/
+│   └── server.js
 │
 └── frontend/
-    ├── index.html
+    ├── acessonNegado.html
+    ├── cadastrarAluno.html
+    ├── cadastrarAviso.html
+    ├── cadastrarUsuario.html
+    ├── chatAluno.html
     ├── dashboard.html
+    ├── editarAluno.html
+    ├── editarUsuario.html
+    ├── historicoAluno.html
+    ├── index.html
+    ├── listaAlunos.html
+    ├── listaAvisos.html
+    ├── listaEventos.html
+    ├── listaLogs.html
+    ├── listaUsuarios.html
+    ├── registrarEventos.html
     ├── script.js
     └── style.css
 ```
@@ -73,178 +83,64 @@ prontuario-escolar/
 
 ## ⚙️ Tecnologias Utilizadas
 
-* Node.js
-* Express
-* MariaDB
-* HTML
-* CSS
-* JavaScript
+* Node.js / Express
+* AWS Amazon Aurora & RDS (MySQL/MariaDB Compatible)
+* AWS EC2 (Amazon Linux 2023)
+* HTML5, CSS3, JavaScript
 * Git e GitHub
 
 ---
 
-## 🚀 Como Executar o Projeto
+## 🚀 Como Clonar e Executar
 
----
-
-# 💻 🔵 LINUX (Toolbox / Fedora / Ubuntu)
-
-## 1. Clonar o projeto
-
+### 1. Clonar o projeto
 ```bash
-git clone https://github.com/Renan-Damalio/Pi1.git
-cd Pi1
+git clone https://github.com/LucasIgnacio95/PI2-v1.02.git
+cd PI2-v1.02
 ```
 
----
-
-## 2. Instalar dependências
-
+### 2. Instalar dependências (Backend)
 ```bash
 cd backend
 npm install
 ```
 
----
+### 3. Configuração do Banco de Dados (AWS RDS / Aurora)
+Configure as credenciais de conexão com o banco AWS Aurora/RDS no arquivo de configuração do backend ou via variáveis de ambiente (`.env`).
 
-## 3. Iniciar o banco de dados
-
-```bash
-mysqld --datadir=$HOME/mysql-data \
---socket=$HOME/mysql-data/mysql.sock \
---pid-file=$HOME/mysql-data/mysql.pid \
---skip-networking
-```
-
-⚠️ Deixe esse terminal aberto
-
----
-
-## 4. Iniciar o backend
-
-Em outro terminal:
-
-```bash
-cd backend
-node server.js
-```
-
----
-
-## 5. Iniciar o frontend
-
-Em outro terminal:
-
-```bash
-cd frontend
-python3 -m http.server 5500
-```
-
----
-
-## 6. Acessar no navegador
-
-```
-http://localhost:5500
-```
-
----
-
-# 🪟 🟢 WINDOWS
-
-## 1. Clonar o projeto
-
-```bash
-git clone https://github.com/Renan-Damalio/Pi1.git
-cd Pi1
-```
-
----
-
-## 2. Instalar dependências
-
-```bash
-cd backend
-npm install
-```
-
----
-
-## 3. Instalar e iniciar MariaDB
-
-* Instale o MariaDB no Windows
-* Inicie o serviço normalmente
-
----
-
-## 4. Configurar conexão
-
-No arquivo `config/db.js`, use:
-
-```js
-host: "localhost",
-user: "root",
-password: "",
-database: "prontuario_escolar"
-```
-
----
-
-## 5. Rodar backend
-
+### 4. Iniciar o Servidor
 ```bash
 node server.js
 ```
 
 ---
 
-## 6. Rodar frontend
+## 🗄️ Estrutura do Banco de Dados (AWS Amazon Aurora / RDS)
 
-```bash
-cd frontend
-npx serve
-```
+Para configurar o banco de dados relacional na AWS (compatível com MySQL/MariaDB), utilize os comandos SQL abaixo:
 
-OU abrir com Live Server (VS Code)
-
----
-
-## 7. Acessar
-
-```
-http://localhost:3000 (API)
-http://localhost:5500 (Frontend)
-```
-
----
-
-## 🗄️ Banco de Dados
-
-1. Abra o painel de controle do XAMPP.
-
-2. Na linha do Apache, clique no botão Start.
-
-3 . Na linha do MySQL, clique no botão Start. (Isso garante que o seu servidor local e o banco de dados estejam rodando para receber as informações).
-
-### Criar banco:
-
+### 1. Criar Banco de Dados:
 ```sql
 CREATE DATABASE prontuario_escolar;
 USE prontuario_escolar;
 ```
 
----
+### 2. Criar Tabelas:
 
-### Criar tabelas
-
--- Tabela de Usuários
+-- Tabela de Usuários (com suporte a LGPD, tokens, 2FA e nome de usuário)
 ```sql
 CREATE TABLE usuarios (
     id INT(11) AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
-    senha VARCHAR(100) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    consentimento_lgpd TINYINT(1) DEFAULT 0,
+    data_consentimento_lgpd DATETIME DEFAULT NULL,
+    token TEXT DEFAULT NULL,
+    codigo_2fa VARCHAR(10) DEFAULT NULL,
+    expiracao_2fa DATETIME DEFAULT NULL,
+    usuario VARCHAR(100) DEFAULT NULL
 );
 ```
 
@@ -297,34 +193,20 @@ CREATE TABLE logs_auditoria (
 );
 ```
 
--- Trigger de Auditoria
+### 3. Inserir Dados Iniciais:
 ```sql
-DELIMITER //
-CREATE TRIGGER trg_log_alunos_after_insert
-AFTER INSERT ON alunos
-FOR EACH ROW
-BEGIN
-    INSERT INTO logs_auditoria (usuario_id, acao, registro_afetado, detalhes, ip)
-    VALUES (NEW.responsavel_id, 'INSERÇÃO DE ALUNO', CONCAT('Aluno ID: ', NEW.id), CONCAT('Nome: ', NEW.nome), '127.0.0.1');
-END;
-//
-DELIMITER ;
-```
-### Inserir dados iniciais:
+INSERT INTO usuarios (nome, email, tipo, senha, consentimento_lgpd, usuario) VALUES
+('Admin', 'admin@email.com', 'admin', '123', 0, 'admin'),
+('Professor João', 'joao@email.com', 'Professor', '123', 0, 'profjoao'),
+('Pai Maria', 'caio@email.com', 'Responsável', '123', 0, 'caio');
 
-```sql
-INSERT INTO usuarios (nome,email,senha,tipo) VALUES
-('Admin','admin@email.com','123','admin'),
-('Professor João','prof@email.com','123','professor'),
-('Pai Maria','pai@email.com','123','responsavel');
-
-INSERT INTO alunos (nome,data_nascimento,turma) VALUES
-('Aluno Teste','2020-01-01','Berçário 2');
+INSERT INTO alunos (nome, data_nascimento, turma, responsavel, responsavel_id) VALUES
+('Aluno Teste', '2020-01-01', 'Berçário 2', 'Pai Maria', 5);
 ```
 
 ---
 
-## 🔐 Login padrão
+## 🔐 Login Padrão
 
 ```
 Email: admin@email.com
@@ -340,31 +222,10 @@ Senha: 123
 * Criptografia de dados em trânsito e em repouso (segurança e conformidade LGPD)
 * Validação rigorosa de criação de senhas fortes
 * Sistema de registo de auditoria (logs) de atividades
-* Cadastro de alunos e responsáveis
-* Registro de ocorrências e rotina
-* Sistema de chat integrado
+* **Cadastro de alunos**
+* **Sistema de avisos escolares**
+* **Sistema de chat integrado**
 * Controle de usuários (admin)
-
----
-
-## ⚠️ Observações
-
-* Não subir:
-
-  * node_modules
-  * .env
-  * mysql-data
-
-* Utilizar `.gitignore`
-
----
-
-## 📈 Próximas melhorias
-
-* Interface com abas (estilo navegador)
-* Controle de permissões por usuário
-* Dashboard personalizado
-* Melhorias visuais (UI/UX)
 
 ---
 
