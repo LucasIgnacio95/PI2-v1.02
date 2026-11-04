@@ -47,11 +47,11 @@ async function enviarEmail2FA(destinatario, codigo) {
     }
 }
 
-async function enviarEmailBoasVindas(destinatario, nome, senhaTemp, tentativa = 1) {
+async function enviarEmailBoasVindas(destinatario, nome, usuarioAcesso, senhaTemp, tentativa = 1) {
     const remetente = "prontuarioescolar19@gmail.com";
 
     if (!sesClient || !SendEmailCommand) {
-        console.log(`[DEV FALLBACK] E-mail de boas-vindas para ${destinatario} (${nome})`);
+        console.log(`[DEV FALLBACK] E-mail de boas-vindas para ${destinatario} (${nome}, usuário: ${usuarioAcesso})`);
         return false;
     }
 
@@ -77,7 +77,7 @@ async function enviarEmailBoasVindas(destinatario, nome, senhaTemp, tentativa = 
             },
             Body: {
                 Text: {
-                    Data: `Olá, ${nome}!\n\nSua conta no sistema Prontuário Escolar foi criada com sucesso.\n\nSeu e-mail de acesso é: ${destinatario}\nSua senha temporária é: ${senhaTemp}\n\nAcesse o sistema para começar.`,
+                    Data: `Olá, ${nome}!\n\nSua conta no sistema Prontuário Escolar foi criada com sucesso.\n\nSeu usuário de acesso é: ${usuarioAcesso}\nSua senha temporária é: ${senhaTemp}\n\nAcesse o sistema para começar.`,
                 },
             },
         },
@@ -92,7 +92,7 @@ async function enviarEmailBoasVindas(destinatario, nome, senhaTemp, tentativa = 
         if ((error.name === 'MessageRejected' || error.Code === 'MessageRejected' || (error.message && error.message.includes('not verified'))) && tentativa <= 10) {
             console.log(`[SES] E-mail de boas-vindas pendente (tentativa ${tentativa}/10) para ${destinatario}. Tentando novamente em 1 minuto...`);
             setTimeout(() => {
-                enviarEmailBoasVindas(destinatario, nome, senhaTemp, tentativa + 1);
+                enviarEmailBoasVindas(destinatario, nome, usuarioAcesso, senhaTemp, tentativa + 1);
             }, 60000); // 1 minuto
         } else {
             console.error("Erro ao enviar e-mail de boas-vindas via Amazon SES:", error);

@@ -200,19 +200,38 @@ function verificarAcessoAdmin() {
 
     const user = JSON.parse(userStr);
     const urlAtual = window.location.pathname.toLowerCase();
-    const tipoUsuario = user.tipo.toLowerCase(); 
+    const tipoUsuario = (user.tipo || "").toLowerCase(); 
+    const isResponsavel = tipoUsuario === "responsável" || tipoUsuario === "responsavel";
+    const isAdmin = tipoUsuario === "admin" || tipoUsuario === "administrador";
 
     const paginasExclusivasAdmin = [
         "listausuarios", 
         "cadastrarusuario", 
         "editarusuario",
-        "logs"
+        "usuarios",
+        "cadastrar-usuario",
+        "editar-usuario",
+        "logs",
+        "listalogs"
     ];
 
     const paginasBloqueadasResponsavel = [
         "listaalunos",
         "cadastraraluno",
         "editaraluno",
+        "historicoaluno",
+        "alunos",
+        "cadastrar-aluno",
+        "editar-aluno",
+        "historico-aluno",
+        "listausuarios",
+        "cadastrarusuario",
+        "editarusuario",
+        "usuarios",
+        "cadastrar-usuario",
+        "editar-usuario",
+        "logs",
+        "listalogs",
         "cadastraraviso",
         "registrareventos"
     ];
@@ -220,18 +239,26 @@ function verificarAcessoAdmin() {
     const bloqueioAdmin = paginasExclusivasAdmin.some(pagina => urlAtual.includes(pagina));
     
     if (bloqueioAdmin) {
-        if (tipoUsuario !== "admin" && tipoUsuario !== "administrador") {
+        if (!isAdmin) {
             window.location.href = "/acesso-negado";
             return; 
         }
     }
 
-    const bloqueioResponsavel = paginasBloqueadasResponsavel.some(pagina => urlAtual.includes(pagina));
-    
-    if (bloqueioResponsavel) {
-        if (tipoUsuario === "responsável" || tipoUsuario === "responsavel") {
+    if (isResponsavel) {
+        const bloqueioResponsavel = paginasBloqueadasResponsavel.some(pagina => urlAtual.includes(pagina));
+        if (bloqueioResponsavel) {
             window.location.href = "/acesso-negado";
+            return;
         }
+
+        // Esconder itens do menu lateral proibidos para responsável (Usuários, Alunos, Logs)
+        document.querySelectorAll("#sidebar-wrapper a").forEach(a => {
+            const href = (a.getAttribute("href") || "").toLowerCase();
+            if (href.includes("/usuarios") || href.includes("/alunos") || href.includes("/logs")) {
+                a.style.display = "none";
+            }
+        });
     }
 }
 

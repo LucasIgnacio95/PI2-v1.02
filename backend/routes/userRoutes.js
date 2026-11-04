@@ -166,7 +166,7 @@ router.post("/", (req, res) => {
 
             // Enviar e-mail de boas-vindas / verificação via Amazon SES apenas se for administrador
             if (isAdmin && email) {
-                await enviarEmailBoasVindas(email, nome, senha);
+                await enviarEmailBoasVindas(email, nome, userLogin, senha);
             }
 
             // Registrar Log de Auditoria
